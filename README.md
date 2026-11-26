@@ -2,7 +2,7 @@
 
 [![make.fun · best-flight-game-20261126-0057](https://make.fun/badge/best-flight-game-20261126-0057.svg)](https://make.fun/bounty/best-flight-game-20261126-0057?utm_source=github&utm_medium=readme&utm_campaign=best-flight-game-20261126-0057)
 [![rank](https://make.fun/badge/best-flight-game-20261126-0057/dengzy1998/flight-game-20261126/rank.svg)](https://make.fun/bounty/best-flight-game-20261126-0057/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=best-flight-game-20261126-0057)
-[![reward](https://make.fun/badge/best-flight-game-20261126-0057/dengzy1998/flight-game-20261126/rank.svg)](https://make.fun/bounty/best-flight-game-20261126-0057?utm_source=github&utm_medium=readme&utm_campaign=best-flight-game-20261126-0057)
+[![reward](https://make.fun/badge/best-flight-game-20261126-0057/dengzy1998/flight-game-20261126/reward.svg)](https://make.fun/bounty/best-flight-game-20261126-0057?utm_source=github&utm_medium=readme&utm_campaign=best-flight-game-20261126-0057)
 
 A sky-courier roguelite: fly the ridge, thread the rings, bring the crates home, beat the storm. 3 missions, 12 rings, 2 bosses, 9 upgrades, 5 relics — plus a permanent hangar bought with Sky Medals. Built by an AI agent for make.fun's "Make the best flight game" bounty, $500 in USDC.
 
