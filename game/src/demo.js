@@ -33,11 +33,18 @@ export function autopilot(G, input) {
   // Drones in the way are worth a burst.
   if (G.drones.length && Math.abs(G.drones[0].z - p.z) < 800) wantFire = true;
 
+  // Heading-aware steering: aim the nose at the objective, don't chase it
+  // with raw position error (that oscillates — the heading outlives the
+  // bank that made it, so a position-only controller overshoots every ring).
   const dx = tx - p.x;
-  input.left = dx < -18;
-  input.right = dx > 18;
-  input.up = p.y < ty - 24;
-  input.down = p.y > ty + 24;
+  const desiredHeading = Math.atan2(dx, 320);
+  const headingErr = desiredHeading - p.heading;
+  input.left = headingErr < -0.03;
+  input.right = headingErr > 0.03;
+  // Pitch: climb or dive toward the objective's altitude, with a dead band.
+  const dy = ty - p.y;
+  input.up = dy > 30;
+  input.down = dy < -30;
   input.throttleUp = p.throttle < 0.72;
   input.throttleDown = p.throttle > 0.78;
   input.fire = wantFire;
@@ -72,14 +79,14 @@ export function stageShot(G, shot, seed, terrain) {
     startMission(G, 0, seed);
     G.screen = 'playing';
     G.autopilot = true;
-    p.z = 900; // next ring 300 m ahead
+    p.z = 700; // next ring ~260 m out once the 0.9 s freeze-frame settles
     p.x = -40; p.y = 400;
     p.throttle = 0.85; p.speed = 265; p.bank = 0.22; p.climb = 0;
     G.rings[0].passed = true; G.rings[1].passed = true;
     G.ringIndex = 2;
     G.rings[2].x = 60; G.rings[2].y = 430; G.rings[2].z = 1200;
-    G.rings[3].x = -90; G.rings[3].y = 380; G.rings[3].z = 1550;
-    G.rings[4].x = 140; G.rings[4].y = 470; G.rings[4].z = 1900;
+    G.rings[3].x = -90; G.rings[3].y = 380; G.rings[3].z = 1620;
+    G.rings[4].x = 140; G.rings[4].y = 470; G.rings[4].z = 2040;
     G.missionStats.ringsPassed = 2;
     G.combo = 2; G.comboTimer = 5;
     G.score = 420;
@@ -107,9 +114,14 @@ export function stageShot(G, shot, seed, terrain) {
     const boss = G.bosses.find((b) => b.kind === 'stormhawk');
     if (boss) { boss.hp = 0; G.missionStats.bossesDown = 1; }
     G.bosses = G.bosses.filter((b) => b.hp > 0);
-    // The Leviathan arrives already damaged and firing.
-    const lev = { kind: 'airship', x: -30, y: 470, z: p.z + 850, hp: 150, maxHp: 260, fireTimer: 0.5, phase: 2, speed: 0.4, droneTimer: 5 };
+    // The Leviathan arrives already damaged and firing, close enough to
+    // read clearly. Storm clouds are pushed to the flanks so the centre
+    // lane — and the boss — stay visible.
+    const lev = { kind: 'airship', x: -60, y: 500, z: p.z + 850, hp: 150, maxHp: 260, fireTimer: 0.5, phase: 2, speed: 0.4, droneTimer: 5 };
     G.bosses.push(lev);
+    for (const c of G.clouds) {
+      if (c.storm) c.x = (c.x < 0 ? -1 : 1) * (330 + Math.abs(c.x) % 140);
+    }
     G.drones = [
       { x: 200, y: 420, z: p.z + 500, hp: 30, maxHp: 30, fireTimer: 0.6, phase: 0.5 },
       { x: -260, y: 560, z: p.z + 680, hp: 30, maxHp: 30, fireTimer: 1.2, phase: 2 },

@@ -230,6 +230,9 @@ function frame(now) {
 if (shot) {
   stageShot(G, shot, seed, terrain);
   G.autopilot = shot !== 'score';
+  // ?freeze=0 lets a staged run play out in full (endurance testing):
+  // the frame no longer freezes 0.9 s in.
+  if (params.get('freeze') === '0') G.shotMode = false;
 } else if (demoMode) {
   G.autopilot = true;
 }

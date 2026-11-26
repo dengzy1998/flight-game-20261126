@@ -2,7 +2,7 @@
 // One job: paint one frame of the world in depth order (far to near), then
 // the jet. The HUD and the menus live in hud.js, not here.
 
-import { VIEW, PALETTE } from './config.js';
+import { VIEW, PALETTE, FLIGHT } from './config.js';
 import { drawSky, drawRidges } from './terrain.js';
 import { project, drawPlayerJet, drawDrone, drawAirship, drawTracer } from './aircraft.js';
 import { clamp } from './random.js';
@@ -131,7 +131,7 @@ function drawCloud(ctx, cam, c, time) {
 function drawRing(ctx, cam, ring, isNext, time) {
   const p = project(cam, ring.x, ring.y, ring.z);
   if (!p) return;
-  const r = 42 * p.s;
+  const r = FLIGHT.ringRadius * p.s;
   if (r < 2) return;
   const pulse = isNext ? 1 + 0.12 * Math.sin(time * 6) : 1;
   ctx.save();

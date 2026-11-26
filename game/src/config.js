@@ -18,7 +18,7 @@ export const FLIGHT = {
   cruiseThrottle: 0.68,
   accelRate: 55, // speed units/s^2 toward throttle target
   maxBank: 0.95, // radians of visual bank at full stick
-  turnRate: 0.42, // heading change per second at full bank, scaled by speed
+  turnRate: 0.55, // heading change per second at full bank, scaled by speed
   climbRate: 150, // world units/s of altitude at full pitch
   minAltitude: 40, // hard floor above the highest hill + margin
   maxAltitude: 950,
@@ -34,9 +34,9 @@ export const FLIGHT = {
   flakDamage: 10,
   stormDamagePerSec: 9,
   fireInterval: 0.12, // seconds between cannon shots
-  bulletSpeed: 950,
+  bulletSpeed: 1200,
   bulletRange: 1300,
-  ringRadius: 42, // world units; flying through the hoop counts
+  ringRadius: 55, // world units; flying through the hoop counts
   ringScore: 100,
   droneKillScore: 150,
   bossKillScore: 1000,

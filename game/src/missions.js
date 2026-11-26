@@ -58,7 +58,7 @@ export function startMission(G, index, seed) {
   G.rings = m.rings ? buildRingCourse(seed + index * 13, m.rings, 0) : [];
   G.zones = m.zones ? buildDropZones(seed + index * 7) : [];
   G.crates = m.zones || 0;
-  G.relicPickups = buildRelicPickups(seed + index * 3, RELICS, m.rings ? m.rings * 350 : 4500, p.relicLuck);
+  G.relicPickups = buildRelicPickups(seed + index * 3, RELICS, m.rings ? m.rings * 420 : 4500, p.relicLuck);
   G.drones = [];
   G.bosses = [];
   G.bullets = [];
@@ -267,11 +267,11 @@ export function updateMission(G, dt, terrain, audio, input) {
     b.phase += dt;
     if (b.kind === 'stormhawk') {
       b.z = p.z + 620;
-      b.x = Math.sin(b.phase * 0.8) * 260;
+      b.x = Math.sin(b.phase * 0.5) * 150;
       b.y = 420 + Math.sin(b.phase * 1.4) * 160;
       b.fireTimer -= dt;
       if (b.fireTimer <= 0) {
-        b.fireTimer = 1.5;
+        b.fireTimer = 1.8;
         enemyFire(G, b, audio);
       }
     } else {
@@ -335,7 +335,7 @@ export function updateMission(G, dt, terrain, audio, input) {
     }
     for (const boss of G.bosses) {
       if (boss.hp <= 0) continue;
-      const radius = boss.kind === 'airship' ? 150 : 34;
+      const radius = boss.kind === 'airship' ? 150 : 48;
       if (Math.abs(b.z - boss.z) < 30 && Math.hypot(b.x - boss.x, b.y - boss.y) < radius) {
         boss.hp -= p.bulletDamage;
         b.life = 0;
@@ -397,7 +397,7 @@ export function updateMission(G, dt, terrain, audio, input) {
   G.messages = G.messages.filter((msg) => msg.timer > 0);
 
   // ---- Mission end conditions ----
-  const courseEnd = m.rings ? m.rings * 350 + 800 : m.zones ? 1600 + 2 * 1500 + 500 : 0;
+  const courseEnd = m.rings ? m.rings * 420 + 800 : m.zones ? 1600 + 2 * 1500 + 500 : 0;
   if (m.id === 1 && p.z > courseEnd) {
     const ok = G.missionStats.ringsPassed >= m.need;
     endMission(G, ok, ok ? `Rings ${G.missionStats.ringsPassed}/${m.rings} — the ridge salutes you.` : `Only ${G.missionStats.ringsPassed}/${m.rings} rings. The ridge keeps its secrets.`, audio);

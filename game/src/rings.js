@@ -12,9 +12,11 @@ export function buildRingCourse(seed, count, startZ) {
   let x = 0;
   let y = 320;
   for (let i = 0; i < count; i++) {
-    x = clamp(x + (rand() * 2 - 1) * 260, -320, 320);
-    y = clamp(y + (rand() * 2 - 1) * 260, 150, 700);
-    rings.push({ x, y, z: startZ + 500 + i * 350, passed: false, missed: false });
+    // Gentle steps: the pilot has ~1.7 s between rings, so each hoop sits
+    // within one comfortable turn of the last, never a snap across the sky.
+    x = clamp(x + (rand() * 2 - 1) * 130, -320, 320);
+    y = clamp(y + (rand() * 2 - 1) * 140, 150, 700);
+    rings.push({ x, y, z: startZ + 500 + i * 420, passed: false, missed: false });
   }
   return rings;
 }
